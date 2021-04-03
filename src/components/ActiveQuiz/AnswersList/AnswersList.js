@@ -6,9 +6,13 @@ const AnswersList = props => {
   return (
     <ul className={classes.AnswersList}>
       {
-        props.answers.map((answer, idx) => {
+        props.answers.map(answer => {
           return (
-            <AnswerItem key={`${answer}${Math.random()}`} answer={answer}/>
+            <AnswerItem
+              key={answer.id}
+              answer={answer}
+              onAnswerClick={props.onAnswerClick}
+            />
           );
         })
       }

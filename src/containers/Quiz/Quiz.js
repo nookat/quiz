@@ -6,14 +6,20 @@ class Quiz extends Component {
   state = {
     quiz: [
       {
+        question: 'Какой язык программирования активен во Frontend?',
+        rightAnswerId: 3,
         answers: [
-          {text: 'Вопрос 1'},
-          {text: 'Вопрос 2'},
-          {text: 'Вопрос 3'},
-          {text: 'Вопрос 4'},
+          {id: 1, text: 'Java'},
+          {id: 2, text: 'PHP'},
+          {id: 3, text: 'Javascript'},
+          {id: 4, text: 'Python'},
         ],
       },
     ],
+  };
+
+  onAnswerClickHandler = (answerId) => {
+    console.log('AnswerId:', answerId);
   };
 
   render() {
@@ -22,7 +28,11 @@ class Quiz extends Component {
         <div className={classes.QuizWrapper}>
           <h1>Ответьте на все вопросы</h1>
 
-          <ActiveQuiz answers={this.state.quiz[0].answers}/>
+          <ActiveQuiz
+            answers={this.state.quiz[0].answers}
+            question={this.state.quiz[0].question}
+            onAnswerClick={this.onAnswerClickHandler}
+          />
         </div>
       </div>
     );
