@@ -3,6 +3,7 @@ import classes from './Auth.module.css'
 import Button from '../../components/UI/Button'
 import Input from '../../components/UI/Input'
 import is from 'is_js'
+import axios from 'axios'
 
 class Auth extends Component {
 
@@ -38,7 +39,11 @@ class Auth extends Component {
 
   loginHandler = () => {}
 
-  registerHandler = () => {}
+  registerHandler = async () => {
+    axios.post(
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]')
+
+  }
 
   submitHandler = event => {
     event.preventDefault()

@@ -2,37 +2,17 @@ import React, {Component} from 'react'
 import classes from './Quiz.module.css'
 import ActiveQuiz from '../../components/ActiveQuiz'
 import FinishedQuiz from '../../components/FinishedQuiz'
+import axios from '../../axios/axios-quiz'
+import Loader from '../../components/UI/Loader'
 
 class Quiz extends Component {
   state = {
     results: {},
     isFinished: false,
     activeQuestion: 0,
-    answerState: null, // {[answerId]: 'success'/ 'error'}
-    quiz: [
-      {
-        id: 1,
-        question: 'Какой язык программирования активен во Frontend?',
-        rightAnswerId: 3,
-        answers: [
-          {id: 1, text: 'Java'},
-          {id: 2, text: 'PHP'},
-          {id: 3, text: 'Javascript'},
-          {id: 4, text: 'Python'},
-        ],
-      },
-      {
-        id: 2,
-        question: 'Какого цвета небо?',
-        rightAnswerId: 1,
-        answers: [
-          {id: 1, text: 'Синее'},
-          {id: 2, text: 'Красное'},
-          {id: 3, text: 'Желтое'},
-          {id: 4, text: 'Белое'},
-        ],
-      },
-    ],
+    answerState: null,
+    quiz: [],
+    loading: true,
   }
 
   onAnswerClickHandler = (answerId) => {
@@ -94,8 +74,19 @@ class Quiz extends Component {
     })
   }
 
-  componentDidMount() {
-    console.log('Quiz ID = ', this.props.match.params.id)
+  async componentDidMount() {
+    try {
+      const response = await axios.get(
+        `/quizes/${this.props.match.params.id}.json`)
+
+      const quiz = response.data
+      this.setState({
+        quiz,
+        loading: false,
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   render() {
@@ -105,7 +96,9 @@ class Quiz extends Component {
           <h1>Ответьте на все вопросы</h1>
 
           {
-            this.state.isFinished
+            this.state.loading
+              ? <Loader/>
+              : this.state.isFinished
               ?
               <FinishedQuiz
                 results={this.state.results}
@@ -122,7 +115,6 @@ class Quiz extends Component {
                 state={this.state.answerState}
               />
           }
-
         </div>
       </div>
     )
