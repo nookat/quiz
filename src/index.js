@@ -2,15 +2,22 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
-import {BrowserRouter as Router} from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import rootReducer from './store/reducers/rootReducer'
+import thunk from 'redux-thunk'
+import { composeWithDevTools } from 'redux-devtools-extension'
+
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
 
 const app = (
-  <Router>
-    <React.StrictMode>
+  <Provider store={store}>
+    <Router>
       <App/>
-    </React.StrictMode>
-  </Router>
+    </Router>
+  </Provider>
 )
 
 ReactDOM.render(
